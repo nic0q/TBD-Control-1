@@ -130,6 +130,7 @@ CREATE TABLE IF NOT EXISTS  "Venta_Detalle" (
   "fecha" DATE NULL,
   "id_cliente" INT NOT NULL,
   "id_pedido" INT NOT NULL,
+  "id_producto" INT NOT NULL,
   PRIMARY KEY ("id_venta_detalle"),
   CONSTRAINT "fk_Venta_Detalle_Cliente1"
     FOREIGN KEY ("id_cliente")
@@ -140,23 +141,9 @@ CREATE TABLE IF NOT EXISTS  "Venta_Detalle" (
     FOREIGN KEY ("id_pedido")
     REFERENCES "Pedido" ("id_pedido")
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
-
--------------------------------------------------------
---Table  "Venta_Producto"
--------------------------------------------------------
-CREATE TABLE IF NOT EXISTS  "Venta_Producto" (
-  "id_venta_producto" SERIAL,
-  "id_producto" INT NOT NULL,
-  "id_venta" INT NOT NULL,
-  PRIMARY KEY ("id_venta_producto"),
+    ON UPDATE NO ACTION,
   CONSTRAINT "fk_Venta_Producto_Producto1"
     FOREIGN KEY ("id_producto")
     REFERENCES "Producto" ("id_producto")
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT "fk_Venta_Producto_Venta_Detalle1"
-    FOREIGN KEY ("id_venta")
-    REFERENCES "Venta_Detalle" ("id_venta_detalle")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
