@@ -10,56 +10,14 @@ INNER JOIN 'Venta_Producto' AS vp ON vp.id_producto = pro.id_producto
 INNER JOIN 'Venta_Detalle' AS vd ON vd.id_venta_detalle = vp.id_venta
 INNER JOIN 'Cliente' AS cli ON cli.rut = vd.id_cliente
 -- falta agrupar y contar, necesito ver las tablas
-
-
 -- 2 producto menos pedido por compañía
 SELECT co.id_compania
 FROM 'Compania' AS co
 INNER JOIN 'Producto' AS pro ON pro.id_compania = co.id_compania
 INNER JOIN 'Venta_Producto' AS vp ON vp.id_producto = pro.id_producto
 INNER JOIN 'Venta_Detalle' AS vd ON vd.id_venta_detalle = vp.id_venta
-
 */
 
-/*
-ESTA VA PAL FORKFAN
-.
-................. /´ /)
-................/¯ ..//
-............../... ./ /
-........ ..,/¯ ..//
-........ ./... ./ /
-.../´¯/' ...'/´¯`•¸
-./'/.../... ./... ..../¨¯\
-('(...´(... ....... ,~/'...')
-..\.......... ..... ..\/..../
-....''...\.... ..... . _.•´
-......\....... ..... ..(
-........\..... ..... ...\
-
-ESTA VA PARA LA VANINA
-MAS TE VALE HIJO DE LA RE MIL
-.
-................. /´ /)
-................/¯ ..//
-............../... ./ /
-........ ..,/¯ ..//
-........ ./... ./ /
-.../´¯/' ...'/´¯`•¸
-./'/.../... ./... ..../¨¯\
-('(...´(... ....... ,~/'...')
-..\.......... ..... ..\/..../
-....''...\.... ..... . _.•´
-......\....... ..... ..(
-........\..... ..... ...\
-CHUPALO XAVIER MUÑOZ
-*/
-
-
-
--- Felipe Bello
-
--- Producto VANANA
 INSERT INTO public."Producto" (valor, nombre)
 VALUES
   (123131, 'Pan'),
@@ -76,23 +34,6 @@ VALUES
   (24356, 'Tomate'),
   (45758, 'Pollo');
 
-
-INSERT INTO public."Venta_Detalle" (precio_total, fecha)
-VALUES
-  (123434, 'Jul 17, 2023',1,1),
-  (24325323,'Jul 22, 2022',1,1),
-  (4367759,'Apr 8, 2023',1,1),
-  (264785, 'Jun 18, 2022',1,1),
-  (7968363,'Jul 11, 2022',1,1),
-  (757687,'Aug 27, 2022',1,1),
-  (475475,'Oct 13, 2021',1,1),
-  (14543634,'Jul 15, 2023',1,1),
-  (2364478,'Nov 27, 2022',1,1),
-  (3464748,'Jul 20, 2023',1,1);
-
--- FALTA PARA Cliente_Direccion<<<<<<<<<<<<<<<<<<<
-------------------------------------------------------------------------------
--- Region
 INSERT INTO public."Region" (nombre)
 VALUES
   ('Metropolitana'),
@@ -106,7 +47,6 @@ VALUES
   ('Los Rios'),
   ('Atacama');
 
-  -- Comuna
 INSERT INTO public."Comuna" (nombre, id_region)
 VALUES
   ('Providencia', 1),
@@ -120,7 +60,6 @@ VALUES
   ('Buin', 9),
   ('Lo Barnechea', 10);
   
--- Medio_Transporte
 INSERT INTO public."Medio_transporte" (patente, nombre)
 VALUES
   ('SB1096','Auto'),
@@ -134,7 +73,6 @@ VALUES
   ('HGDF67','Moto'),
   ('HHSS12','RayoMcqueen');
 
--- Repartidor
 INSERT INTO public."Repartidor" (nombre,id_transporte,id_comuna)
 VALUES
   ('Kirby Drake', 2, 2),
@@ -148,7 +86,6 @@ VALUES
   ('Logan Morton', 9, 9),
   ('Alisa Allen', 9 , 9);
   
--- Direccion
 INSERT INTO "Direccion" (numero,calle)
 VALUES
   (8085,'Aenean egestas hendrerit'),
@@ -162,7 +99,6 @@ VALUES
   (9667,'Duis volutpat nunc sit amet metus'),
   (1337,'Fusce diam nunc, ullamcorper');
 
--- Compania
 INSERT INTO public."Compania" (nombre)
 VALUES
   ('MonsterINC'),
@@ -176,7 +112,6 @@ VALUES
   ('Forkfan'),
   ('Amazon');
 
--- Cliente
 INSERT INTO public."Cliente" (rut,nombre)
 VALUES
   ('14577992-8','Noah Rivers'),
@@ -190,7 +125,32 @@ VALUES
   ('1067351-8','Miranda Reynolds'),
   ('40593903-7','Drew Griffin');
 
--- Cliente Dirección
+INSERT INTO public."Pedido" (id_cliente, id_repartidor)
+VALUES
+  (1,2),
+  (1,2),
+  (1,3),
+  (2,2),
+  (1,2),
+  (4,2),
+  (1,5),
+  (5,2),
+  (1,6),
+  (1,2);
+
+INSERT INTO public."Venta_Detalle" (precio_total, fecha, id_cliente, id_pedido)
+VALUES
+  (123434, 'Jul 17, 2023',1,1),
+  (24325323,'Jul 22, 2022',1,1),
+  (4367759,'Apr 8, 2023',1,1),
+  (264785, 'Jun 18, 2022',1,1),
+  (7968363,'Jul 11, 2022',1,1),
+  (757687,'Aug 27, 2022',1,1),
+  (475475,'Oct 13, 2021',1,1),
+  (14543634,'Jul 15, 2023',1,1),
+  (2364478,'Nov 27, 2022',1,1),
+  (3464748,'Jul 20, 2023',1,1);
+
 INSERT INTO public."Cliente_Direccion" (id_cliente,id_direccion)
 VALUES
   (1,1),
@@ -203,4 +163,3 @@ VALUES
   (1,9),
   (3,2),
   (5,6);
--- /Ban forkfan
