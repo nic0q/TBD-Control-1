@@ -4,20 +4,20 @@
 --lista es un top por compañia? porque si no diria
 --cliente con mas pedidos por compañia 
 SELECT cli.rut, vd.id_venta_detalle, co.id_compania
-FROM "Compania" AS co
-INNER JOIN "Producto" AS pro ON pro.id_compania = co.id_compania
-INNER JOIN "Venta_Producto" AS vp ON vp.id_producto = pro.id_producto
-INNER JOIN "Venta_Detalle" AS vd ON vd.id_venta_detalle = vp.id_venta
-INNER JOIN "Cliente" AS cli ON cli.rut = vd.id_cliente
+FROM 'Compania' AS co
+INNER JOIN 'Producto' AS pro ON pro.id_compania = co.id_compania
+INNER JOIN 'Venta_Producto' AS vp ON vp.id_producto = pro.id_producto
+INNER JOIN 'Venta_Detalle' AS vd ON vd.id_venta_detalle = vp.id_venta
+INNER JOIN 'Cliente' AS cli ON cli.rut = vd.id_cliente
 -- falta agrupar y contar, necesito ver las tablas
 
 
 -- 2 producto menos pedido por compañía
 SELECT co.id_compania
-FROM "Compania" AS co
-INNER JOIN "Producto" AS pro ON pro.id_compania = co.id_compania
-INNER JOIN "Venta_Producto" AS vp ON vp.id_producto = pro.id_producto
-INNER JOIN "Venta_Detalle" AS vd ON vd.id_venta_detalle = vp.id_venta
+FROM 'Compania' AS co
+INNER JOIN 'Producto' AS pro ON pro.id_compania = co.id_compania
+INNER JOIN 'Venta_Producto' AS vp ON vp.id_producto = pro.id_producto
+INNER JOIN 'Venta_Detalle' AS vd ON vd.id_venta_detalle = vp.id_venta
 
 */
 
@@ -54,165 +54,152 @@ MAS TE VALE HIJO DE LA RE MIL
 ........\..... ..... ...\
 CHUPALO XAVIER MUÑOZ
 */
--- Cliente
-INSERT INTO `Cliente` (`nombre`)
-VALUES
-  ("Olympia Wilkinson"),
-  ("Bert Miles"),
-  ("Lev Guerrero"),
-  ("Benedict Douglas"),
-  ("Rina Gillespie"),
-  ("Charissa Stanley"),
-  ("Banana Correa"),
-  ("Cassandra Chambers"),
-  ("Zelenia Whitaker"),
-  ("Cally Ayers");
 
 
--- Producto
-INSERT INTO `Producto` (`nombre`)
-VALUES
-  ("Pan"),
-  ("Leche"),
-  ("Helado"),
-  ("Manzana"),
-  ("Arroz"),
-  ("Fideos"),
-  ("Harina")
-  ("Cafe"),
-  ("Cerveza"),
-  ("Agua");
-  ("Palta"),
-  ("Tomate"),
-  ("Pollo");
 
-INSERT INTO `Producto` (`precio`)
+-- Felipe Bello
+
+-- Producto VANANA
+INSERT INTO public."Producto" (valor, nombre)
 VALUES
-  (123131),
-  (12313),
-  (43444),
-  (32131),
-  (1323),
-  (43424),
-  (13311),
-  (43414),
-  (1133),
-  (4342);
+  (123131, 'Pan'),
+  (12313, 'Leche'),
+  (43444,'Helado'),
+  (32245,'Manzana'),
+  (142,'Arroz'),
+  (1000,'Fideos'),
+  (15000, 'Harina'),
+  (21423, 'Cafe'),
+  (34657, 'Cerveza'),
+  (3658, 'Agua'),
+  (976746, 'Palta'),
+  (24356, 'Tomate'),
+  (45758, 'Pollo');
 
 -- Repartidor
-INSERT INTO `Repartidor` (`nombre`)
+INSERT INTO public."Repartidor" (nombre,id_transporte,id_comuna)
 VALUES
-  ("Kirby Drake"),
-  ("Miriam Sharp"),
-  ("Thaddeus Langley"),
-  ("Keane Banks"),
-  ("Connor Hayden"),
-  ("Brianna Meyers"),
-  ("Zachary Shannon"),
-  ("Cruz Melton"),
-  ("Logan Morton"),
-  ("Alisa Allen");
-
--- Medio_Transporte
-INSERT INTO `Medio_Transporte` (`nombre`)
-VALUES
-  ("Auto"),
-  ("Moto"),
-  ("Bicicleta");
-
--- Venta_Detalle
-INSERT INTO `Venta_Detalle` (`precio_total`)
-VALUES
-  (65765),
-  (34534),
-  (3453),
-  (6346),
-  (1314),
-  (2589),
-  (14343), 
-  (465464),
-  (2434),
-  (4353);
-
-INSERT INTO `Venta_Detalle` (`fecha`)
-VALUES
-  ("Jul 17, 2023"),
-  ("Jul 22, 2022"),
-  ("Apr 8, 2023"),
-  ("Jun 18, 2022"),
-  ("Jul 11, 2022"),
-  ("Aug 27, 2022"),
-  ("Oct 13, 2021"),
-  ("Jul 15, 2023"),
-  ("Nov 27, 2022"),
-  ("Jul 20, 2023");
-
--- Compania
-INSERT INTO `Compania` (`nombre`)
-VALUES
-  ("semper"),
-  ("nibh"),
-  ("luctus"),
-  ("magna"),
-  ("Praesent"),
-  ("neque"),
-  ("Aenean"),
-  ("gravida"),
-  ("ac"),
-  ("Curae");
+  ('Kirby Drake', 1, 2),
+  ('Miriam Sharp', 2, 3),
+  ('Nora Langley', 3),
+  ('Keane Banks', 4, 4),
+  ('Connor Hayden', 5 , 5),
+  ('Brianna Meyers', 6, 6),
+  ('Zachary Shannon', 7, 7),
+  ('Cruz Melton', 8 , 8),
+  ('Logan Morton', 9, 9),
+  ('Alisa Allen', 9 , 9);
 
 
--- Comuna
-INSERT INTO `Comuna` (`nombre`)
+INSERT INTO public."Venta_Detalle" (precio_total, fecha)
 VALUES
-  ("Providencia"),
-  ("Santiago Centro"),
-  ("Paine"),
-  ("La Florida"),
-  ("Puente Alto"),
-  ("La Reina"),
-  ("Quilicura"),
-  ("Estación Central"),
-  ("Buin"),
-  ("Lo Barnechea");
+  (123434, 'Jul 17, 2023',1,1),
+  (24325323,'Jul 22, 2022',1,1),
+  (4367759,'Apr 8, 2023',1,1),
+  (264785, 'Jun 18, 2022',1,1),
+  (7968363,'Jul 11, 2022',1,1),
+  (757687,'Aug 27, 2022',1,1),
+  (475475,'Oct 13, 2021',1,1),
+  (14543634,'Jul 15, 2023',1,1),
+  (2364478,'Nov 27, 2022',1,1),
+  (3464748,'Jul 20, 2023',1,1);
+
+-- FALTA PARA Cliente_Direccion<<<<<<<<<<<<<<<<<<<
+------------------------------------------------------------------------------
+-- Region
+INSERT INTO public."Region" (nombre)
+VALUES
+  ('Metropolitana'),
+  ('Valparaiso'),
+  ('Antofagasta'),
+  ('Maule'),
+  ('Arica'),
+  ('La Araucania'),
+  ('Magallanes'),
+  ('Aysen'),
+  ('Los Rios'),
+  ('Atacama');
+
+  -- Comuna
+INSERT INTO public."Comuna" (nombre, id_region)
+VALUES
+  ('Providencia', 1),
+  ('Santiago Centro', 1),
+  ('Paine', 3),
+  ('La Florida', 4),
+  ('Puente Alto', 5),
+  ('La Reina', 6),
+  ('Quilicura', 7),
+  ('Estación Central', 8),
+  ('Buin', 9),
+  ('Lo Barnechea', 10);
 
 -- Direccion
-INSERT INTO `Direccion` (`calle`)
+INSERT INTO "Direccion" (numero,calle)
 VALUES
-  ("Aenean egestas hendrerit neque. In ornare sagittis felis."),
-  ("lorem tristique aliquet. Phasellus fermentum"),
-  ("tellus faucibus leo, in lobortis"),
-  ("Aenean eget"),
-  ("ac mattis"),
-  ("egestas, urna justo faucibus lectus, a sollicitudin"),
-  ("ultricies ligula. Nullam enim."),
-  ("eu, ultrices sit amet, risus. Donec"),
-  ("Duis volutpat nunc sit amet metus. Aliquam"),
-  ("Fusce diam nunc, ullamcorper");
+  (8085,'Aenean egestas hendrerit'),
+  (3002,'lorem tristique aliquet'),
+  (5445,'tellus faucibus leo, in lobortis'),
+  (7135,'Aenean eget'),
+  (6001,'ac mattis'),
+  (8860,'egestas, urna justo faucibus lectus'),
+  (4180,'ultricies ligula. Nullam enim.'),
+  (9976,'eu, ultrices sit amet, risus. Donec'),
+  (9667,'Duis volutpat nunc sit amet metus'),
+  (1337,'Fusce diam nunc, ullamcorper');
 
-INSERT INTO `Direccion` (`numero`)
+-- Compania
+INSERT INTO public."Compania" (nombre)
 VALUES
-  (8085),
-  (3002),
-  (5445),
-  (7135),
-  (6001),
-  (8860),
-  (4180),
-  (9976),
-  (9667),
-  (1730);
+  ('MonsterINC'),
+  ('Pollos Hermanos'),
+  ('McDonalds'),
+  ('GameFreak'),
+  ('Scorealuca'),
+  ('BananasCorreas'),
+  ('Asus'),
+  ('Diinf'),
+  ('Forkfan'),
+  ('Amazon');
 
--- Region
-INSERT INTO `Region` (`nombre`)
+-- Cliente
+INSERT INTO public."Cliente" (rut,nombre)
 VALUES
-  ("Metropolitana"),
-  ("Valparaiso"),
-  ("Antofagasta"),
-  ("Maule"),
-  ("Arica"),
-  ("La Araucania"),
-  ("Magallanes"),
-  ("Aysen"),
-  ("Los Rios"),
-  ("Atacama");
+  ('14577992-8','Noah Rivers'),
+  ('1636691-9','Edan Pacheco'),
+  ('29624633-6','Wyoming Bass'),
+  ('2660123-1','Audrey Nash'),
+  ('1434120-K','Kirsten Randall'),
+  ('4884747-1','Zena Steele'),
+  ('631543-7','Banana Correa'),
+  ('26656726-K','Petra Pierce'),
+  ('1067351-8','Miranda Reynolds'),
+  ('40593903-7','Drew Griffin');
+
+-- Cliente Dirección
+INSERT INTO public."Cliente_Direccion" (id_cliente,id_direccion)
+VALUES
+  (1,1),
+  (2,2),
+  (3,3),
+  (4,4),
+  (5,5),
+  (6,6),
+  (7,7),
+  (1,9),
+  (3,2),
+  (5,6);
+-- /Ban forkfan
+-- Medio_Transporte
+INSERT INTO public."Medio_transporte" (patente, nombre)
+VALUES
+  ('SB1096','Auto'),
+  ('RTYK31','Moto'),
+  ('LDLK78','Meteoro'),
+  ('RTW313','Jet'),
+  ('BD4562','Moto'),
+  ('PLRW56','Carreta'),
+  ('DS2310','Transformer'),
+  ('DS2410','Auto'),
+  ('HGDF67','Moto'),
+  ('HHSS12','RayoMcqueen');

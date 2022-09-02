@@ -2,7 +2,7 @@
 --Table "Cliente"
 -------------------------------------------------------
 CREATE TABLE IF NOT EXISTS "Cliente" (
-  "id_cliente" INT NOT NULL,
+  "id_cliente" SERIAL,
   "rut" VARCHAR(10) NOT NULL,
   "nombre" VARCHAR(45) NULL,
   PRIMARY KEY ("id_cliente"));
@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS "Cliente" (
 --Table "Medio_transporte"
 -------------------------------------------------------
 CREATE TABLE IF NOT EXISTS "Medio_transporte" (
-  "id_medio_transporte" INT NOT NULL,
-  "patente" INT NOT NULL,
+  "id_medio_transporte" SERIAL,
+  "patente" CHAR(6) NOT NULL,
   "nombre" VARCHAR(45) NOT NULL,
    PRIMARY KEY ("id_medio_transporte"));
 
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS "Medio_transporte" (
 --Table "Region"
 -------------------------------------------------------
 CREATE TABLE IF NOT EXISTS"Region" (
-  "id_region" INT NOT NULL,
+  "id_region" SERIAL,
   "nombre" VARCHAR(45) NULL,
   PRIMARY KEY ("id_region"));
 
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS"Region" (
 --Table "Comuna"
 -------------------------------------------------------
 CREATE TABLE IF NOT EXISTS"Comuna" (
-  "id_comuna" INT NOT NULL,
+  "id_comuna" SERIAL,
   "nombre" VARCHAR(45) NULL,
   "id_region" INT NOT NULL,
   PRIMARY KEY ("id_comuna"),
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS"Comuna" (
 --Table "Repartidor"
 -------------------------------------------------------
 CREATE TABLE IF NOT EXISTS "Repartidor" (
-  "id_repartidor" INT NOT NULL  ,
+  "id_repartidor" SERIAL,
   "nombre" VARCHAR(45) NULL,
   "id_transporte" INT NOT NULL,
   "id_comuna" INT NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS "Repartidor" (
 --Table  "Pedido"
 -------------------------------------------------------
 CREATE TABLE IF NOT EXISTS "Pedido" (
-  "id_pedido" INT NOT NULL,
+  "id_pedido" SERIAL,
   "id_cliente" INT NOT NULL,
   "id_repartidor" INT NULL,
   PRIMARY KEY ("id_pedido"),
@@ -81,8 +81,8 @@ CREATE TABLE IF NOT EXISTS "Pedido" (
 --Table  "Direccion"
 -------------------------------------------------------
 CREATE TABLE IF NOT EXISTS "Direccion" (
-  "id_direccion" INT NOT NULL  ,
-  "calle" VARCHAR(45) NOT NULL,
+  "id_direccion" SERIAL  ,
+  "calle" VARCHAR(100) NOT NULL,
   "numero" INT NOT NULL,
   "id_comuna" INT NULL,
   PRIMARY KEY ("id_direccion"),
@@ -96,8 +96,8 @@ CREATE TABLE IF NOT EXISTS "Direccion" (
 --Table  "Compania"
 -------------------------------------------------------
 CREATE TABLE IF NOT EXISTS "Compania" (
-  "id_compania" INT NOT NULL,
-  "nombre" VARCHAR(45) NULL,
+  "id_compania" SERIAL,
+  "nombre" VARCHAR(100) NULL,
   "id_comuna" INT NULL,
   PRIMARY KEY ("id_compania"),
   CONSTRAINT "compania_comuna"
@@ -110,8 +110,8 @@ CREATE TABLE IF NOT EXISTS "Compania" (
 --Table  "Producto"
 -------------------------------------------------------
 CREATE TABLE IF NOT EXISTS "Producto" (
-  "id_producto" INT NOT NULL,
-  "nombre" VARCHAR(45) NULL,
+  "id_producto" SERIAL,
+  "nombre" VARCHAR(100) NULL,
   "valor" FLOAT NULL,
   "id_compania" INT NULL,
   PRIMARY KEY ("id_producto"),
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS "Producto" (
 --Table  "Cliente_Direccion"
 -------------------------------------------------------
 CREATE TABLE IF NOT EXISTS  "Cliente_Direccion" (
-  "id_cliente_direccion" INT NOT NULL  ,
+  "id_cliente_direccion" SERIAL,
   "id_cliente" INT NULL,
   "id_direccion" INT NULL,
   PRIMARY KEY ("id_cliente_direccion"),
@@ -144,10 +144,9 @@ CREATE TABLE IF NOT EXISTS  "Cliente_Direccion" (
 --Table  "Venta_Detalle"
 -------------------------------------------------------
 CREATE TABLE IF NOT EXISTS  "Venta_Detalle" (
-  "id_venta_detalle" INT NOT NULL,
+  "id_venta_detalle" SERIAL,
   "precio_total" INT NULL,
   "fecha" DATE NULL,
-  "Venta_Detallecol" VARCHAR(45) NULL,
   "id_cliente" INT NOT NULL,
   "id_pedido" INT NOT NULL,
   PRIMARY KEY ("id_venta_detalle"),
@@ -166,7 +165,7 @@ CREATE TABLE IF NOT EXISTS  "Venta_Detalle" (
 --Table  "Venta_Producto"
 -------------------------------------------------------
 CREATE TABLE IF NOT EXISTS  "Venta_Producto" (
-  "id_venta_producto" INT NOT NULL,
+  "id_venta_producto" SERIAL,
   "id_producto" INT NOT NULL,
   "id_venta" INT NOT NULL,
   PRIMARY KEY ("id_venta_producto"),
