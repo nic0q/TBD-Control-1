@@ -18,21 +18,21 @@ INNER JOIN 'Venta_Producto' AS vp ON vp.id_producto = pro.id_producto
 INNER JOIN 'Venta_Detalle' AS vd ON vd.id_venta_detalle = vp.id_venta
 */
 
-INSERT INTO public."Producto" (valor, nombre)
+INSERT INTO public."Producto" (valor, nombre, id_compania)
 VALUES
-  (123131, 'Pan'),
-  (12313, 'Leche'),
-  (43444,'Helado'),
-  (32245,'Manzana'),
-  (142,'Arroz'),
-  (1000,'Fideos'),
-  (15000, 'Harina'),
-  (21423, 'Cafe'),
-  (34657, 'Cerveza'),
-  (3658, 'Agua'),
-  (976746, 'Palta'),
-  (24356, 'Tomate'),
-  (45758, 'Pollo');
+  (123131, 'Pan', 3),
+  (12313, 'Leche', 1),
+  (43444,'Helado', 3),
+  (32245,'Manzana', 4),
+  (142,'Arroz', 5),
+  (1000,'Fideos', 6),
+  (15000, 'Harina', 2),
+  (21423, 'Cafe', 7),
+  (34657, 'Cerveza', 8),
+  (3658, 'Agua', 9),
+  (976746, 'Palta', 10),
+  (24356, 'Tomate', 1),
+  (45758, 'Pollo', 3);
 
 INSERT INTO public."Region" (nombre)
 VALUES
@@ -86,31 +86,31 @@ VALUES
   ('Logan Morton', 9, 9),
   ('Alisa Allen', 9 , 9);
   
-INSERT INTO "Direccion" (numero,calle)
+INSERT INTO "Direccion" (numero,calle, id_comuna)
 VALUES
-  (8085,'Aenean egestas hendrerit'),
-  (3002,'lorem tristique aliquet'),
-  (5445,'tellus faucibus leo, in lobortis'),
-  (7135,'Aenean eget'),
-  (6001,'ac mattis'),
-  (8860,'egestas, urna justo faucibus lectus'),
-  (4180,'ultricies ligula. Nullam enim.'),
-  (9976,'eu, ultrices sit amet, risus. Donec'),
-  (9667,'Duis volutpat nunc sit amet metus'),
-  (1337,'Fusce diam nunc, ullamcorper');
+  (8085,'Aenean egestas hendrerit',1),
+  (3002,'lorem tristique aliquet',2),
+  (5445,'tellus faucibus leo, in lobortis',3),
+  (7135,'Aenean eget',4),
+  (6001,'ac mattis',5),
+  (8860,'egestas, urna justo faucibus lectus',6),
+  (4180,'ultricies ligula. Nullam enim.',7),
+  (9976,'eu, ultrices sit amet, risus. Donec',8),
+  (9667,'Duis volutpat nunc sit amet metus',9),
+  (1337,'Fusce diam nunc, ullamcorper',10);
 
-INSERT INTO public."Compania" (nombre)
+INSERT INTO public."Compania" (nombre, id_comuna)
 VALUES
-  ('MonsterINC'),
-  ('Pollos Hermanos'),
-  ('McDonalds'),
-  ('GameFreak'),
-  ('Scorealuca'),
-  ('BananasCorreas'),
-  ('Asus'),
-  ('Diinf'),
-  ('Forkfan'),
-  ('Amazon');
+  ('MonsterINC', 1),
+  ('Pollos Hermanos', 3),
+  ('McDonalds', 6),
+  ('GameFreak', 9),
+  ('Scorealuca', 2),
+  ('BananasCorreas', 4),
+  ('Asus', 5),
+  ('Diinf', 7),
+  ('Forkfan', 8),
+  ('Amazon', 10);
 
 INSERT INTO public."Cliente" (rut,nombre)
 VALUES
