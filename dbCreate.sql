@@ -120,25 +120,6 @@ CREATE TABLE IF NOT EXISTS "Producto" (
     REFERENCES "Compania" ("id_compania")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
--------------------------------------------------------
---Table  "Cliente_Direccion"
--------------------------------------------------------
-CREATE TABLE IF NOT EXISTS  "Cliente_Direccion" (
-  "id_cliente_direccion" SERIAL,
-  "id_cliente" INT NULL,
-  "id_direccion" INT NULL,
-  PRIMARY KEY ("id_cliente_direccion"),
-  CONSTRAINT "cliente_direccion_cliente"
-    FOREIGN KEY ("id_cliente")
-    REFERENCES "Cliente" ("id_cliente")
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT "cliente_direccion_direccion"
-    FOREIGN KEY ("id_direccion")
-    REFERENCES "Direccion" ("id_direccion")
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
  
 -------------------------------------------------------
 --Table  "Venta_Detalle"
