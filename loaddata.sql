@@ -76,20 +76,6 @@ VALUES
   (24356, 'Tomate'),
   (45758, 'Pollo');
 
--- Repartidor
-INSERT INTO public."Repartidor" (nombre,id_transporte,id_comuna)
-VALUES
-  ('Kirby Drake', 1, 2),
-  ('Miriam Sharp', 2, 3),
-  ('Nora Langley', 3),
-  ('Keane Banks', 4, 4),
-  ('Connor Hayden', 5 , 5),
-  ('Brianna Meyers', 6, 6),
-  ('Zachary Shannon', 7, 7),
-  ('Cruz Melton', 8 , 8),
-  ('Logan Morton', 9, 9),
-  ('Alisa Allen', 9 , 9);
-
 
 INSERT INTO public."Venta_Detalle" (precio_total, fecha)
 VALUES
@@ -133,7 +119,35 @@ VALUES
   ('Estación Central', 8),
   ('Buin', 9),
   ('Lo Barnechea', 10);
+  
+-- Medio_Transporte
+INSERT INTO public."Medio_transporte" (patente, nombre)
+VALUES
+  ('SB1096','Auto'),
+  ('RTYK31','Moto'),
+  ('LDLK78','Meteoro'),
+  ('RTW313','Jet'),
+  ('BD4562','Moto'),
+  ('PLRW56','Carreta'),
+  ('DS2310','Transformer'),
+  ('DS2410','Auto'),
+  ('HGDF67','Moto'),
+  ('HHSS12','RayoMcqueen');
 
+-- Repartidor
+INSERT INTO public."Repartidor" (nombre,id_transporte,id_comuna)
+VALUES
+  ('Kirby Drake', 2, 2),
+  ('Miriam Sharp', 2, 3),
+  ('Nora Langley',1, 3),
+  ('Keane Banks', 4, 4),
+  ('Connor Hayden', 5 , 5),
+  ('Brianna Meyers', 6, 6),
+  ('Zachary Shannon', 7, 7),
+  ('Cruz Melton', 8 , 8),
+  ('Logan Morton', 9, 9),
+  ('Alisa Allen', 9 , 9);
+  
 -- Direccion
 INSERT INTO "Direccion" (numero,calle)
 VALUES
@@ -190,16 +204,3 @@ VALUES
   (3,2),
   (5,6);
 -- /Ban forkfan
--- Medio_Transporte
-INSERT INTO public."Medio_transporte" (patente, nombre)
-VALUES
-  ('SB1096','Auto'),
-  ('RTYK31','Moto'),
-  ('LDLK78','Meteoro'),
-  ('RTW313','Jet'),
-  ('BD4562','Moto'),
-  ('PLRW56','Carreta'),
-  ('DS2310','Transformer'),
-  ('DS2410','Auto'),
-  ('HGDF67','Moto'),
-  ('HHSS12','RayoMcqueen');
