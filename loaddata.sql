@@ -18,22 +18,6 @@ INNER JOIN 'Venta_Producto' AS vp ON vp.id_producto = pro.id_producto
 INNER JOIN 'Venta_Detalle' AS vd ON vd.id_venta_detalle = vp.id_venta
 */
 
-INSERT INTO public."Producto" (valor, nombre, id_compania)
-VALUES
-  (123131, 'Pan', 3),
-  (12313, 'Leche', 1),
-  (43444,'Helado', 3),
-  (32245,'Manzana', 4),
-  (142,'Arroz', 5),
-  (1000,'Fideos', 6),
-  (15000, 'Harina', 2),
-  (21423, 'Cafe', 7),
-  (34657, 'Cerveza', 8),
-  (3658, 'Agua', 9),
-  (976746, 'Palta', 10),
-  (24356, 'Tomate', 1),
-  (45758, 'Pollo', 3);
-
 INSERT INTO public."Region" (nombre)
 VALUES
   ('Metropolitana'),
@@ -137,6 +121,22 @@ VALUES
   (5,2),
   (1,6),
   (1,2);
+
+INSERT INTO public."Producto" (valor, nombre, id_compania)
+VALUES
+  (123131, 'Pan', 3),
+  (12313, 'Leche', 1),
+  (43444,'Helado', 3),
+  (32245,'Manzana', 4),
+  (142,'Arroz', 5),
+  (1000,'Fideos', 6),
+  (15000, 'Harina', 2),
+  (21423, 'Cafe', 7),
+  (34657, 'Cerveza', 8),
+  (3658, 'Agua', 9),
+  (976746, 'Palta', 10),
+  (24356, 'Tomate', 1),
+  (45758, 'Pollo', 3);
 
 INSERT INTO public."Venta_Detalle" (precio_total, fecha, id_cliente, id_pedido, id_producto)
 VALUES
