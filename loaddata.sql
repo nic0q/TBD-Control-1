@@ -29,7 +29,8 @@ VALUES
   ('Magallanes'),
   ('Aysen'),
   ('Los Rios'),
-  ('Atacama');
+  ('Atacama'),
+  ('Tarapaca');
 
 INSERT INTO public."Comuna" (nombre, id_region)
 VALUES
@@ -42,20 +43,22 @@ VALUES
   ('Quilicura', 7),
   ('Estación Central', 8),
   ('Buin', 9),
-  ('Lo Barnechea', 10);
+  ('Lo Barnechea', 10),
+  ('Alto Hospicio', 11);
   
 INSERT INTO public."Medio_transporte" (patente, nombre)
 VALUES
   ('SB1096','Auto'),
   ('RTYK31','Moto'),
-  ('LDLK78','Meteoro'),
-  ('RTW313','Jet'),
+  ('LDLK78','Bicicleta'),
+  ('RTW313','Bicicleta'),
   ('BD4562','Moto'),
-  ('PLRW56','Carreta'),
-  ('DS2310','Transformer'),
+  ('PLRW56','Auto'),
+  ('DS2310','Bicicleta'),
   ('DS2410','Auto'),
   ('HGDF67','Moto'),
-  ('HHSS12','RayoMcqueen');
+  ('HHSS12','Moto'),
+  ('CWFA23','Auto');
 
 INSERT INTO public."Repartidor" (nombre,id_transporte,id_comuna)
 VALUES
@@ -68,7 +71,8 @@ VALUES
   ('Zachary Shannon', 7, 7),
   ('Cruz Melton', 8 , 8),
   ('Logan Morton', 9, 9),
-  ('Alisa Allen', 9 , 9);
+  ('Alisa Allen', 9 , 9),
+  ('Joel Miller', 11, 11);
   
 INSERT INTO "Direccion" (numero,calle, id_comuna)
 VALUES
@@ -81,7 +85,8 @@ VALUES
   (4180,'ultricies ligula. Nullam enim.',7),
   (9976,'eu, ultrices sit amet, risus. Donec',8),
   (9667,'Duis volutpat nunc sit amet metus',9),
-  (1337,'Fusce diam nunc, ullamcorper',10);
+  (1337,'Fusce diam nunc, ullamcorper',10),
+  (1189, 'Sotad ed Esab', 11);
 
 INSERT INTO public."Compania" (nombre, id_comuna)
 VALUES
@@ -94,7 +99,8 @@ VALUES
   ('Asus', 5),
   ('Diinf', 7),
   ('Forkfan', 8),
-  ('Amazon', 10);
+  ('Amazon', 10),
+  ('Burger King', 11);
 
 INSERT INTO public."Cliente" (rut,nombre)
 VALUES
@@ -107,7 +113,8 @@ VALUES
   ('631543-7','Banana Correa'),
   ('26656726-K','Petra Pierce'),
   ('1067351-8','Miranda Reynolds'),
-  ('40593903-7','Drew Griffin');
+  ('40593903-7','Drew Griffin'),
+  ('18235688-1', 'Juan Sierra');
 
 INSERT INTO public."Pedido" (id_cliente, id_repartidor)
 VALUES
@@ -120,7 +127,8 @@ VALUES
   (1,5),
   (5,2),
   (1,6),
-  (1,2);
+  (1,2),
+  (11, 9);
 
 INSERT INTO public."Producto" (valor, nombre, id_compania)
 VALUES
@@ -136,7 +144,8 @@ VALUES
   (3658, 'Agua', 9),
   (976746, 'Palta', 10),
   (24356, 'Tomate', 1),
-  (45758, 'Pollo', 3);
+  (45758, 'Pollo', 3),
+  (34284, 'Papas', 11);
 
 INSERT INTO public."Venta_Detalle" (precio_total, fecha, id_cliente, id_pedido, id_producto)
 VALUES
@@ -149,4 +158,5 @@ VALUES
   (475475,'Oct 13, 2021',1,6,4),
   (14543634,'Jul 15, 2023',1,5,5),
   (2364478,'Nov 27, 2022',1,4,6),
-  (3464748,'Jul 20, 2023',1,3,1);
+  (3464748,'Jul 20, 2023',1,3,1),
+  (8494854, 'Nov 18, 2021',11, 11, 11);

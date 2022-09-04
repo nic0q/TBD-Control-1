@@ -26,6 +26,21 @@ INNER JOIN public."Venta_Detalle" as vd ON vd.id_producto = pro.id_producto
 INNER JOIN public."Pedido" as pd ON pd.id_pedido = vd.id_pedido
 INNER JOIN public."Cliente" as cli ON cli.id_cliente = pd.id_cliente;
 
+-- 3) Medio de transporte más usados para repartir los pedidos por comuna de cliente
+
+-- Se obtiene el medio de transporte mas utilizado por comuna
+SELECT Medios.nombre_comuna,  MAX(Medios.cantidad), Medios.id_comuna, Medios.nombre_transporte
+FROM(
+--Se obtiene el medio transporte por comuna
+SELECT "Comuna".id_comuna, "Comuna".nombre AS nombre_comuna, "Medio_transporte".nombre AS nombre_transporte, COUNT("Medio_transporte".nombre) AS cantidad
+FROM public."Pedido"
+INNER JOIN public."Repartidor" ON "Repartidor".id_repartidor = "Pedido".id_repartidor
+INNER JOIN public."Medio_transporte" ON "Medio_transporte".id_medio_transporte = "Repartidor".id_transporte
+INNER JOIN public."Comuna" ON "Comuna".id_comuna = "Repartidor".id_comuna
+GROUP BY("Comuna".id_comuna, "Comuna".nombre, "Medio_transporte".nombre)) AS Medios
+GROUP BY(Medios.id_comuna, Medios.nombre_transporte, Medios.nombre_comuna);
+
+
 -- 4. Lista de regiones con más pedidos por mes, en los últimos 3 años
 -- Falta agrupar por mes, por ahora solo muestra top regiones por los últimos 3 años
 SELECT reg.nombre, COUNT(vd.id_venta_detalle)
