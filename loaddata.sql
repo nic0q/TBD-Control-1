@@ -102,19 +102,19 @@ VALUES
   ('Amazon', 10),
   ('Burger King', 11);
 
-INSERT INTO public."Cliente" (rut,nombre)
+INSERT INTO public."Cliente" (rut,nombre, id_direccion)
 VALUES
-  ('14577992-8','Noah Rivers'),
-  ('1636691-9','Edan Pacheco'),
-  ('29624633-6','Wyoming Bass'),
-  ('2660123-1','Audrey Nash'),
-  ('1434120-K','Kirsten Randall'),
-  ('4884747-1','Zena Steele'),
-  ('631543-7','Banana Correa'),
-  ('26656726-K','Petra Pierce'),
-  ('1067351-8','Miranda Reynolds'),
-  ('40593903-7','Drew Griffin'),
-  ('18235688-1', 'Juan Sierra');
+  ('14577992-8','Noah Rivers',1),
+  ('1636691-9','Edan Pacheco',2),
+  ('29624633-6','Wyoming Bass',3),
+  ('2660123-1','Audrey Nash',4),
+  ('1434120-K','Kirsten Randall',5),
+  ('4884747-1','Zena Steele',6),
+  ('631543-7','Banana Correa',7),
+  ('26656726-K','Petra Pierce',8),
+  ('1067351-8','Miranda Reynolds',9),
+  ('40593903-7','Drew Griffin',10),
+  ('18235688-1', 'Juan Sierra',2);
 
 INSERT INTO public."Pedido" (id_cliente, id_repartidor)
 VALUES

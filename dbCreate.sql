@@ -1,11 +1,3 @@
--------------------------------------------------------
---Table "Cliente"
--------------------------------------------------------
-CREATE TABLE IF NOT EXISTS "Cliente" (
-  "id_cliente" SERIAL,
-  "rut" VARCHAR(10) NOT NULL,
-  "nombre" VARCHAR(45) NULL,
-  PRIMARY KEY ("id_cliente"));
 
 -------------------------------------------------------
 --Table "Medio_transporte"
@@ -19,7 +11,7 @@ CREATE TABLE IF NOT EXISTS "Medio_transporte" (
 -------------------------------------------------------
 --Table "Region"
 -------------------------------------------------------
-CREATE TABLE IF NOT EXISTS"Region" (
+CREATE TABLE IF NOT EXISTS "Region" (
   "id_region" SERIAL,
   "nombre" VARCHAR(45) NULL,
   PRIMARY KEY ("id_region"));
@@ -27,7 +19,7 @@ CREATE TABLE IF NOT EXISTS"Region" (
 -------------------------------------------------------
 --Table "Comuna"
 -------------------------------------------------------
-CREATE TABLE IF NOT EXISTS"Comuna" (
+CREATE TABLE IF NOT EXISTS "Comuna" (
   "id_comuna" SERIAL,
   "nombre" VARCHAR(45) NULL,
   "id_region" INT NOT NULL,
@@ -59,6 +51,35 @@ CREATE TABLE IF NOT EXISTS "Repartidor" (
     ON UPDATE NO ACTION);
 
 -------------------------------------------------------
+--Table  "Direccion"
+-------------------------------------------------------
+CREATE TABLE IF NOT EXISTS "Direccion" (
+  "id_direccion" SERIAL  ,
+  "calle" VARCHAR(100) NOT NULL,
+  "numero" INT NOT NULL,
+  "id_comuna" INT NULL,
+  PRIMARY KEY ("id_direccion"),
+  CONSTRAINT "direccion_comuna"
+    FOREIGN KEY ("id_comuna")
+    REFERENCES "Comuna" ("id_comuna")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+-------------------------------------------------------
+--Table "Cliente"
+-------------------------------------------------------
+CREATE TABLE IF NOT EXISTS "Cliente" (
+  "id_cliente" SERIAL,
+  "rut" VARCHAR(10) NOT NULL,
+  "nombre" VARCHAR(45) NULL,
+  PRIMARY KEY ("id_cliente"),
+  CONSTRAINT "cliente_direccion"
+    FOREIGN KEY ("id_direccion")
+    REFERENCES "Direccion" ("id_direccion")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+-------------------------------------------------------
 --Table  "Pedido"
 -------------------------------------------------------
 CREATE TABLE IF NOT EXISTS "Pedido" (
@@ -77,20 +98,6 @@ CREATE TABLE IF NOT EXISTS "Pedido" (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
--------------------------------------------------------
---Table  "Direccion"
--------------------------------------------------------
-CREATE TABLE IF NOT EXISTS "Direccion" (
-  "id_direccion" SERIAL  ,
-  "calle" VARCHAR(100) NOT NULL,
-  "numero" INT NOT NULL,
-  "id_comuna" INT NULL,
-  PRIMARY KEY ("id_direccion"),
-  CONSTRAINT "direccion_comuna"
-    FOREIGN KEY ("id_comuna")
-    REFERENCES "Comuna" ("id_comuna")
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
 
 -------------------------------------------------------
 --Table  "Compania"
