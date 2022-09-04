@@ -1,30 +1,59 @@
--- Un producto pertence a una compañia | surcusal, entonces el pedido que se realiza se encuentra detallado en la boleta
--- -> BOLETA
--- 		- PRODUCTO -> Compañia
--- 		- PEDIDO -> CLiente -> Repartidor -> Medio de Transporte
+-- 1 lista de clientes con más pedidos por compañía
+-- pedidos maximos por compañia
+SELECT maximo.cantidad, maximo.compania, sub.nombre_cli, sub.nombre_co
+FROM
+(SELECT MAX(sub.cantidad) AS cantidad, sub.compania AS compania
+FROM
+-- Cuenta los pedidos de cada cliente en cada compañia
+(SELECT cli.nombre AS nombre_cli, comp.id_compania AS compania, comp.nombre, COUNT(comp.id_compania) AS cantidad
+FROM public."Compania" AS comp
+INNER JOIN public."Producto" AS pro ON pro.id_compania = comp.id_compania
+INNER JOIN public."Venta_Detalle" AS vd ON vd.id_producto = pro.id_producto
+INNER JOIN public."Pedido" AS pd ON pd.id_pedido = vd.id_pedido
+INNER JOIN public."Cliente" AS cli ON cli.id_cliente = pd.id_cliente
+GROUP BY(nombre_cli, comp.id_compania, comp.nombre)
+ORDER BY(comp.id_compania)) AS sub
+GROUP BY(sub.compania)) AS maximo,
 
--- 1. Lista de clientes con más pedidos por compañía
+(SELECT cli.nombre AS nombre_cli, comp.id_compania AS compania, comp.nombre AS nombre_co, COUNT(comp.id_compania) AS cantidad
+FROM public."Compania" AS comp
+INNER JOIN public."Producto" AS pro ON pro.id_compania = comp.id_compania
+INNER JOIN public."Venta_Detalle" AS vd ON vd.id_producto = pro.id_producto
+INNER JOIN public."Pedido" AS pd ON pd.id_pedido = vd.id_pedido
+INNER JOIN public."Cliente" AS cli ON cli.id_cliente = pd.id_cliente
+GROUP BY(nombre_cli, comp.id_compania, comp.nombre)
+ORDER BY(comp.id_compania)) AS sub
 
--- Aca puedo contar cuantos clientes han hecho pedidos a tales compañias
-SELECT count(pd.id_cliente) as cantidad, comp.nombre
-FROM public."Compania" as comp
-INNER JOIN public."Producto" as pro ON pro.id_compania = comp.id_compania
-INNER JOIN public."Venta_Detalle" as vd ON vd.id_producto = pro.id_producto
-INNER JOIN public."Pedido" as pd ON pd.id_pedido = vd.id_pedido
-INNER JOIN public."Cliente" as cli ON cli.id_cliente = pd.id_cliente
-GROUP BY comp.nombre
-ORDER BY cantidad
-DESC;
+WHERE maximo.compania = sub.compania AND maximo.cantidad = sub.cantidad
 
-select * from "Compania";
--- Según yo acá obtengo todos los clientes que han hecho pedidos y esos pedidos corresponden a tales compañias, sin embargo faltaria hacer un LIMIT
--- para solamente obtener por ejemplo 5 filas (Que serian los que han hecho más pedidos)
-SELECT comp.nombre,cli.nombre
-FROM public."Compania" as comp
-INNER JOIN public."Producto" as pro ON pro.id_compania = comp.id_compania
-INNER JOIN public."Venta_Detalle" as vd ON vd.id_producto = pro.id_producto
-INNER JOIN public."Pedido" as pd ON pd.id_pedido = vd.id_pedido
-INNER JOIN public."Cliente" as cli ON cli.id_cliente = pd.id_cliente;
+-- 2 no funca bien
+-- lista de clientes con más pedidos por compañía
+-- pedidos maximos por compañia
+SELECT maximo.cantidad, maximo.compania, sub.nombre_cli, sub.nombre_co
+FROM
+(SELECT MAX(sub.cantidad) AS cantidad, sub.compania AS compania
+FROM
+-- Cuenta los pedidos de cada cliente en cada compañia
+(SELECT cli.nombre AS nombre_cli, comp.id_compania AS compania, comp.nombre, COUNT(comp.id_compania) AS cantidad
+FROM public."Compania" AS comp
+INNER JOIN public."Producto" AS pro ON pro.id_compania = comp.id_compania
+INNER JOIN public."Venta_Detalle" AS vd ON vd.id_producto = pro.id_producto
+INNER JOIN public."Pedido" AS pd ON pd.id_pedido = vd.id_pedido
+INNER JOIN public."Cliente" AS cli ON cli.id_cliente = pd.id_cliente
+GROUP BY(nombre_cli, comp.id_compania, comp.nombre)
+ORDER BY(comp.id_compania)) AS sub
+GROUP BY(sub.compania)) AS maximo,
+
+(SELECT cli.nombre AS nombre_cli, comp.id_compania AS compania, comp.nombre AS nombre_co, COUNT(comp.id_compania) AS cantidad
+FROM public."Compania" AS comp
+INNER JOIN public."Producto" AS pro ON pro.id_compania = comp.id_compania
+INNER JOIN public."Venta_Detalle" AS vd ON vd.id_producto = pro.id_producto
+INNER JOIN public."Pedido" AS pd ON pd.id_pedido = vd.id_pedido
+INNER JOIN public."Cliente" AS cli ON cli.id_cliente = pd.id_cliente
+GROUP BY(nombre_cli, comp.id_compania, comp.nombre)
+ORDER BY(comp.id_compania)) AS sub
+
+WHERE maximo.compania = sub.compania AND maximo.cantidad = sub.cantidad
 
 -- 3) Medio de transporte más usados para repartir los pedidos por comuna de cliente
 
