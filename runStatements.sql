@@ -69,9 +69,20 @@ INNER JOIN public."Comuna" ON "Comuna".id_comuna = "Repartidor".id_comuna
 GROUP BY("Comuna".id_comuna, "Comuna".nombre, "Medio_transporte".nombre)) AS Medios
 GROUP BY(Medios.id_comuna, Medios.nombre_transporte, Medios.nombre_comuna);
 
+-- AVANCE DE LA NOCHE fork ()
+-- Esta consulta arroja el medio de transporte mas usado por cada cliente|repartidor y pedido realizado.
+SELECT DISTINCT ON (Meds.comuna)Meds.comuna, Meds.medio_transporte, Meds.veces_usado -- Al hacer distinct solo obtenemos 1 row (Comuna)
+	FROM (SELECT med.nombre AS medio_transporte, com.nombre AS comuna, COUNT(med.nombre) AS veces_usado
+	FROM public."Medio_transporte" AS med
+	INNER JOIN public."Repartidor" AS rep ON rep.id_transporte = med.id_medio_transporte
+	INNER JOIN public."Pedido" AS ped ON ped.id_repartidor = rep.id_repartidor
+	INNER JOIN public."Comuna" AS com ON com.id_comuna = rep.id_comuna
+	GROUP BY(med.nombre,com.nombre)) AS Meds  -- aqui se obtienen todos los medios de transporte utilizados por cada comuna
+	ORDER BY Meds.comuna, Meds.veces_usado DESC; -- aqui ordenar las veces que se repite le medio de transporte de forma descendente (de mayor a menor)
 
 -- 4. Lista de regiones con más pedidos por mes, en los últimos 3 años
 -- Falta agrupar por mes, por ahora solo muestra top regiones por los últimos 3 años
+
 SELECT reg.nombre, COUNT(vd.id_venta_detalle)
 FROM public."Region" AS reg
 INNER JOIN public."Comuna" AS com ON com.id_region = reg.id_region
@@ -81,7 +92,18 @@ INNER JOIN public."Venta_Detalle" AS vd ON vd.id_pedido = ped.id_pedido
 WHERE vd.fecha >= NOW() - INTERVAL '3 YEAR' AND vd.fecha < NOW()
 GROUP BY reg.nombre
 ORDER BY COUNT(vd.id_venta_detalle) DESC;
---
+
+-- Avance noche fork ()
+-- YA esta agrupado por mes y año distintivamente, falta probarlo bien y hacer otro select,
+SELECT reg.nombre, EXTRACT(MONTH FROM vd.fecha) as mes, EXTRACT(YEAR FROM vd.fecha) as año, COUNT(reg.nombre) as veces
+FROM public."Region" AS reg
+INNER JOIN public."Comuna" AS com ON com.id_region = reg.id_region
+INNER JOIN public."Repartidor" AS rep ON rep.id_comuna = com.id_comuna
+INNER JOIN public."Pedido" AS ped ON ped.id_repartidor = rep.id_repartidor
+INNER JOIN public."Venta_Detalle" AS vd ON vd.id_pedido = ped.id_pedido
+WHERE vd.fecha >= NOW() - INTERVAL '3 YEAR' AND vd.fecha < NOW()
+GROUP BY (reg.nombre, mes, año)
+ORDER BY reg.nombre, veces DESC;
 
 -- 6. Pedido diario con más productos del último mes
 SELECT vd.id_pedido, COUNT(vd.id_venta_detalle) AS productos
