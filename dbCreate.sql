@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS "Direccion" (
     REFERENCES "Comuna" ("id_comuna")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
+select * from "Direccion";
 -------------------------------------------------------
 --Table "Cliente"
 -------------------------------------------------------
@@ -72,6 +72,7 @@ CREATE TABLE IF NOT EXISTS "Cliente" (
   "id_cliente" SERIAL,
   "rut" VARCHAR(10) NOT NULL,
   "nombre" VARCHAR(45) NULL,
+  "id_direccion" INT NULL,
   PRIMARY KEY ("id_cliente"),
   CONSTRAINT "cliente_direccion"
     FOREIGN KEY ("id_direccion")
