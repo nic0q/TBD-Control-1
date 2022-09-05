@@ -166,3 +166,11 @@ INNER JOIN public."Medio_transporte" ON "Medio_transporte".id_medio_transporte =
 WHERE
 ("Comuna".nombre = 'Providencia' OR "Comuna".nombre = 'Santiago Centro') AND
 ("Medio_transporte".nombre = 'Bicicleta' OR "Medio_transporte".nombre = 'Moto')
+
+-- 10. lista de clientes que ha gastado más diariamente el mes pasado
+SELECT SUM(vd.precio_total) AS precio, EXTRACT(DAY FROM vd.fecha) AS dia, vd.id_cliente
+	FROM public."Venta_Detalle" as vd
+	WHERE vd.fecha >= NOW() - INTERVAL '1 MONTH' AND vd.fecha < NOW()
+	GROUP BY(dia, vd.id_cliente)
+	ORDER BY  dia DESC, precio DESC;
+	;
