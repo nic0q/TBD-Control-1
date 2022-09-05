@@ -138,7 +138,7 @@ FROM
 		ORDER BY(ingresos_totales) DESC LIMIT 5;
 
 -- 9. Lista de repartidores que ha llevado pedidos en moto o bicicleta a las comunas de Providencia y Santiago Centro
-SELECT "Repartidor".id_repartidor, "Repartidor".nombre, "Comuna".nombre, "Medio_transporte".nombre
+SELECT "Repartidor".id_repartidor, "Repartidor".nombre, "Comuna".nombre AS comuna, "Medio_transporte".nombre AS Medio_transporte
 FROM public."Repartidor"
 	INNER JOIN public."Comuna" ON "Comuna".id_comuna = "Repartidor".id_comuna
 	INNER JOIN public."Medio_transporte" ON "Medio_transporte".id_medio_transporte = "Repartidor".id_transporte
