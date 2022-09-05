@@ -99,6 +99,9 @@ GROUP BY (reg.nombre, mes, año)
 ORDER BY reg.nombre, veces DESC;
 
 -- 5. lista de clientes por compañía que ha pagado más mensualmente
+SELECT SUM(precio_total) AS total_mes, id_cliente, EXTRACT(MONTH FROM vd.fecha) AS mes, EXTRACT(YEAR FROM vd.fecha) AS agno FROM "Venta_Detalle" AS vd
+GROUP BY mes, id_cliente, agno
+ORDER BY agno, mes, total_mes DESC
 
 -- 6. Pedido diario con más productos del último mes
 SELECT vd.id_pedido, COUNT(vd.id_venta_detalle) AS productos
