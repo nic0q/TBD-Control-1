@@ -1,23 +1,3 @@
--- Tabla FALSO
-/*
--- lista de clientes con más pedidos por compañía
---lista es un top por compañia? porque si no diria
---cliente con mas pedidos por compañia 
-SELECT cli.rut, vd.id_venta_detalle, co.id_compania
-FROM 'Compania' AS co
-INNER JOIN 'Producto' AS pro ON pro.id_compania = co.id_compania
-INNER JOIN 'Venta_Producto' AS vp ON vp.id_producto = pro.id_producto
-INNER JOIN 'Venta_Detalle' AS vd ON vd.id_venta_detalle = vp.id_venta
-INNER JOIN 'Cliente' AS cli ON cli.rut = vd.id_cliente
--- falta agrupar y contar, necesito ver las tablas
--- 2 producto menos pedido por compañía
-SELECT co.id_compania
-FROM 'Compania' AS co
-INNER JOIN 'Producto' AS pro ON pro.id_compania = co.id_compania
-INNER JOIN 'Venta_Producto' AS vp ON vp.id_producto = pro.id_producto
-INNER JOIN 'Venta_Detalle' AS vd ON vd.id_venta_detalle = vp.id_venta
-*/
-
 INSERT INTO public."Region" (nombre)
 VALUES
   ('Metropolitana'),
