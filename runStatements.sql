@@ -55,29 +55,33 @@ ORDER BY (com.id_compania)) AS sub
 WHERE mini.id_compania = sub.id_compania AND mini.cantidad = sub.cantidad
 
 -- 3) Medio de transporte más usados para repartir los pedidos por comuna de cliente
-
--- Se obtiene el medio de transporte mas utilizado por comuna
-SELECT Medios.nombre_comuna,  MAX(Medios.cantidad), Medios.id_comuna, Medios.nombre_transporte
-FROM(
---Se obtiene el medio transporte por comuna
-SELECT "Comuna".id_comuna, "Comuna".nombre AS nombre_comuna, "Medio_transporte".nombre AS nombre_transporte, COUNT("Medio_transporte".nombre) AS cantidad
-FROM public."Pedido"
-INNER JOIN public."Repartidor" ON "Repartidor".id_repartidor = "Pedido".id_repartidor
-INNER JOIN public."Medio_transporte" ON "Medio_transporte".id_medio_transporte = "Repartidor".id_transporte
-INNER JOIN public."Comuna" ON "Comuna".id_comuna = "Repartidor".id_comuna
-GROUP BY("Comuna".id_comuna, "Comuna".nombre, "Medio_transporte".nombre)) AS Medios
-GROUP BY(Medios.id_comuna, Medios.nombre_transporte, Medios.nombre_comuna);
-
--- AVANCE DE LA NOCHE fork ()
--- Esta consulta arroja el medio de transporte mas usado por cada cliente|repartidor y pedido realizado.
-SELECT DISTINCT ON (Meds.comuna)Meds.comuna, Meds.medio_transporte, Meds.veces_usado -- Al hacer distinct solo obtenemos 1 row (Comuna)
-	FROM (SELECT med.nombre AS medio_transporte, com.nombre AS comuna, COUNT(med.nombre) AS veces_usado
-	FROM public."Medio_transporte" AS med
-	INNER JOIN public."Repartidor" AS rep ON rep.id_transporte = med.id_medio_transporte
-	INNER JOIN public."Pedido" AS ped ON ped.id_repartidor = rep.id_repartidor
-	INNER JOIN public."Comuna" AS com ON com.id_comuna = rep.id_comuna
-	GROUP BY(med.nombre,com.nombre)) AS Meds  -- aqui se obtienen todos los medios de transporte utilizados por cada comuna
-	ORDER BY Meds.comuna, Meds.veces_usado DESC; -- aqui ordenar las veces que se repite le medio de transporte de forma descendente (de mayor a menor)
+SELECT com.nombre AS comuna, maximo_transporte.nombre_transporte, maximo_transporte.maximo AS cantidad
+FROM
+-- Direcciones de clientes con el mayor número de medios de transporte utilizado por repartidores junto con el nombre del tipo de vehículo
+(SELECT maxi.maximo AS maximo, maxi.direccion AS direccion, sub.nombre_transporte AS nombre_transporte
+FROM
+ -- Direcciones de clientes con el mayor número de medios de transporte utilizado por repartidores
+(SELECT  sub.direccion AS direccion, MAX(sub.cantidad) AS maximo
+FROM
+ -- Direcciones de clientes junto con el número de medios de transporte por repartidores
+(SELECT cli.id_direccion AS direccion, cli.nombre, med.nombre AS nombre_transporte, COUNT(med.nombre) AS cantidad
+FROM "Cliente" AS cli
+INNER JOIN public."Pedido" AS ped ON ped.id_cliente = cli.id_cliente
+INNER JOIN public."Repartidor" AS rep ON rep.id_repartidor = ped.id_repartidor
+INNER JOIN public."Medio_transporte" AS med ON med.id_medio_transporte = rep.id_transporte
+GROUP BY(cli.id_direccion, cli.nombre, med.nombre)
+ORDER BY(cli.id_direccion)) AS sub
+GROUP BY(sub.direccion)) AS maxi,
+ 
+(SELECT cli.id_direccion AS direccion, cli.nombre, med.nombre AS nombre_transporte, COUNT(med.nombre) AS cantidad
+FROM "Cliente" AS cli
+INNER JOIN public."Pedido" AS ped ON ped.id_cliente = cli.id_cliente
+INNER JOIN public."Repartidor" AS rep ON rep.id_repartidor = ped.id_repartidor
+INNER JOIN public."Medio_transporte" AS med ON med.id_medio_transporte = rep.id_transporte
+GROUP BY(cli.id_direccion, cli.nombre, med.nombre)
+ORDER BY(cli.id_direccion)) AS sub
+ 
+WHERE maxi.maximo = sub.cantidad AND maxi.direccion = sub.direccion) AS maximo_transporte
 
 -- 4. Lista de regiones con más pedidos por mes, en los últimos 3 años
 -- Falta agrupar por mes, por ahora solo muestra top regiones por los últimos 3 años
