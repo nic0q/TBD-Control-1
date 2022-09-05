@@ -24,7 +24,7 @@ INNER JOIN public."Cliente" AS cli ON cli.id_cliente = pd.id_cliente
 GROUP BY(nombre_cli, comp.id_compania, comp.nombre)
 ORDER BY(comp.id_compania)) AS sub
 
-WHERE maximo.compania = sub.compania AND maximo.cantidad = sub.cantidad
+WHERE maximo.compania = sub.compania AND maximo.cantidad = sub.cantidad;
 
 -- 2) producto menos pedido por compañía
 SELECT sub.id_producto, sub.nombre, mini.cantidad, mini.id_compania, sub.company
@@ -52,7 +52,7 @@ WHERE vd.id_producto = prod.id_producto
 GROUP BY (com.id_compania, prod.nombre, prod.id_producto)
 ORDER BY (com.id_compania)) AS sub
 
-WHERE mini.id_compania = sub.id_compania AND mini.cantidad = sub.cantidad
+WHERE mini.id_compania = sub.id_compania AND mini.cantidad = sub.cantidad;
 
 -- 3) Medio de transporte más usados para repartir los pedidos por comuna de cliente
 SELECT com.nombre AS comuna, maximo_transporte.nombre_transporte, maximo_transporte.maximo AS cantidad
@@ -85,7 +85,7 @@ WHERE maxi.maximo = sub.cantidad AND maxi.direccion = sub.direccion
 ORDER BY (direccion)) AS maximo_transporte
 
 INNER JOIN public."Direccion" AS dir ON dir.id_direccion = maximo_transporte.direccion
-INNER JOIN public."Comuna" AS com ON com.id_comuna = dir.id_comuna
+INNER JOIN public."Comuna" AS com ON com.id_comuna = dir.id_comuna;
 
 -- 4. Lista de regiones con más pedidos por mes, en los últimos 3 años
 SELECT reg.nombre, EXTRACT(MONTH FROM vd.fecha) as mes, EXTRACT(YEAR FROM vd.fecha) as año, COUNT(reg.nombre) as veces
@@ -102,7 +102,7 @@ ORDER BY reg.nombre, veces DESC;
 SELECT SUM(precio_total) AS total_mes, cl.nombre, EXTRACT(MONTH FROM vd.fecha) AS mes, EXTRACT(YEAR FROM vd.fecha) AS agno FROM "Venta_Detalle" AS vd
 INNER JOIN public."Cliente" AS cl ON cl.id_cliente = vd.id_cliente
 GROUP BY mes, cl.nombre, agno
-ORDER BY agno, mes, total_mes DESC
+ORDER BY agno, mes, total_mes DESC;
 
 -- 6. Pedido diario con más productos del último mes
 SELECT vd.id_pedido, COUNT(vd.id_venta_detalle) AS productos
@@ -145,7 +145,7 @@ FROM public."Repartidor"
 	INNER JOIN public."Medio_transporte" ON "Medio_transporte".id_medio_transporte = "Repartidor".id_transporte
 	WHERE
 	("Comuna".nombre = 'Providencia' OR "Comuna".nombre = 'Santiago Centro') AND
-	("Medio_transporte".nombre = 'Bicicleta' OR "Medio_transporte".nombre = 'Moto')
+	("Medio_transporte".nombre = 'Bicicleta' OR "Medio_transporte".nombre = 'Moto');
 
 -- 10. lista de clientes que ha gastado más diariamente el mes pasado
 SELECT SUM(vd.precio_total) AS precio, EXTRACT(DAY FROM vd.fecha) AS dia, vd.id_cliente
