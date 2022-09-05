@@ -88,20 +88,6 @@ INNER JOIN public."Direccion" AS dir ON dir.id_direccion = maximo_transporte.dir
 INNER JOIN public."Comuna" AS com ON com.id_comuna = dir.id_comuna
 
 -- 4. Lista de regiones con más pedidos por mes, en los últimos 3 años
--- Falta agrupar por mes, por ahora solo muestra top regiones por los últimos 3 años
-
-SELECT reg.nombre, COUNT(vd.id_venta_detalle)
-FROM public."Region" AS reg
-INNER JOIN public."Comuna" AS com ON com.id_region = reg.id_region
-INNER JOIN public."Repartidor" AS rep ON rep.id_comuna = com.id_comuna
-INNER JOIN public."Pedido" AS ped ON ped.id_repartidor = rep.id_repartidor
-INNER JOIN public."Venta_Detalle" AS vd ON vd.id_pedido = ped.id_pedido
-WHERE vd.fecha >= NOW() - INTERVAL '3 YEAR' AND vd.fecha < NOW()
-GROUP BY reg.nombre
-ORDER BY COUNT(vd.id_venta_detalle) DESC;
-
--- Avance noche fork ()
--- YA esta agrupado por mes y año distintivamente, falta probarlo bien y hacer otro select,
 SELECT reg.nombre, EXTRACT(MONTH FROM vd.fecha) as mes, EXTRACT(YEAR FROM vd.fecha) as año, COUNT(reg.nombre) as veces
 FROM public."Region" AS reg
 INNER JOIN public."Comuna" AS com ON com.id_region = reg.id_region
@@ -114,7 +100,6 @@ ORDER BY reg.nombre, veces DESC;
 
 -- 5. lista de clientes por compañía que ha pagado más mensualmente
 
-
 -- 6. Pedido diario con más productos del último mes
 SELECT vd.id_pedido, COUNT(vd.id_venta_detalle) AS productos
 FROM public."Pedido" AS ped
@@ -124,15 +109,6 @@ GROUP BY vd.id_pedido
 ORDER BY COUNT(vd.id_venta_detalle) DESC
 OFFSET 0 ROWS
 FETCH FIRST 1 ROW ONLY;
---
--- PROPUESTA DE 6
-SELECT prod.nombre as produ, EXTRACT(DAY FROM vd.fecha) AS dia
-	FROM public."Producto" as prod
-	INNER JOIN public."Compania" AS comp ON comp.id_compania = prod.id_compania
-	INNER JOIN public."Venta_Detalle" AS vd ON vd.id_producto = prod.id_producto
-	INNER JOIN public."Pedido" AS ped ON ped.id_pedido = vd.id_pedido
---WHERE vd.fecha >= NOW() - INTERVAL '1 MONTH' AND vd.fecha < NOW() -- al tratarse de solo el utimo mes, podemos agrugpar por dia, ya que no habran dias iguales en 1 mes
-	GROUP BY (prod.nombre, comp.nombre,dia))as prods
 
 -- 7 lista de repartidores con la mayor cantidad de despachos mensuales, en los últimos 3 años
 SELECT repartidores.nombre, repartidores.mes, repartidores.año, repartidores.veces
@@ -145,36 +121,27 @@ FROM
     GROUP BY (rep.nombre, mes,año)) AS repartidores
     ORDER BY  repartidores.año DESC,repartidores.mes DESC, repartidores.veces DESC;
 
-SELECT * from "Venta_Detalle" where "Venta_Detalle".fecha >= NOW() - INTERVAL '1 YEAR' and "Venta_Detalle".fecha < NOW();
 -- 8. Lista de compañías que han recibido más ingresos en el ultimo año
-SELECT *
-FROM public."Compania" as comp
-INNER JOIN public."Producto" as pro ON pro.id_compania = comp.id_compania
-INNER JOIN public."Venta_Detalle" as vent ON vent.id_producto = pro.id_producto
-where vent.fecha >= NOW() - INTERVAL '1 YEAR' and vent.fecha < NOW();
+SELECT companies.comp_name, SUM(companies.ingresos) as ingresos_totales
+FROM
+	(SELECT comp.nombre as comp_name, SUM(prod.valor) as ingresos
+		FROM public."Producto" as prod
+		INNER JOIN public."Compania" AS comp ON comp.id_compania = prod.id_compania
+		INNER JOIN public."Venta_Detalle" AS vd ON vd.id_producto = prod.id_producto
+		INNER JOIN public."Pedido" AS ped ON ped.id_pedido = vd.id_pedido
+		WHERE vd.fecha >= NOW() - INTERVAL '1 YEAR' AND vd.fecha < NOW()
+		GROUP BY (prod.valor, comp.nombre,vd.fecha))as companies
+		GROUP BY(companies.comp_name)
+		ORDER BY(ingresos_totales) DESC LIMIT 5;
 
--- avance fork () 
--- Segun yo estaría lista, muestra todos los ingresos por los pedidos realizados por las compañias (Selecciona solo 5)
--- lista de compañías que ha recibido más dinero en el último año
-SELECT companies.comp_name, SUM(companies.ingresos) as ingresos_totales FROM
-(SELECT comp.nombre as comp_name, SUM(prod.valor) as ingresos
-	FROM public."Producto" as prod
-	INNER JOIN public."Compania" AS comp ON comp.id_compania = prod.id_compania
-	INNER JOIN public."Venta_Detalle" AS vd ON vd.id_producto = prod.id_producto
-	INNER JOIN public."Pedido" AS ped ON ped.id_pedido = vd.id_pedido
-	WHERE vd.fecha >= NOW() - INTERVAL '1 YEAR' AND vd.fecha < NOW()
-	GROUP BY (prod.valor, comp.nombre,vd.fecha))as companies
-	GROUP BY(companies.comp_name)
-	ORDER BY(ingresos_totales) DESC LIMIT 5;
-
--- 9.lista de repartidores que ha llevado pedidos en moto o bicicleta a las comunas de Providencia y Santiago Centro
+-- 9. Lista de repartidores que ha llevado pedidos en moto o bicicleta a las comunas de Providencia y Santiago Centro
 SELECT "Repartidor".id_repartidor, "Repartidor".nombre, "Comuna".nombre, "Medio_transporte".nombre
 FROM public."Repartidor"
-INNER JOIN public."Comuna" ON "Comuna".id_comuna = "Repartidor".id_comuna
-INNER JOIN public."Medio_transporte" ON "Medio_transporte".id_medio_transporte = "Repartidor".id_transporte
-WHERE
-("Comuna".nombre = 'Providencia' OR "Comuna".nombre = 'Santiago Centro') AND
-("Medio_transporte".nombre = 'Bicicleta' OR "Medio_transporte".nombre = 'Moto')
+	INNER JOIN public."Comuna" ON "Comuna".id_comuna = "Repartidor".id_comuna
+	INNER JOIN public."Medio_transporte" ON "Medio_transporte".id_medio_transporte = "Repartidor".id_transporte
+	WHERE
+	("Comuna".nombre = 'Providencia' OR "Comuna".nombre = 'Santiago Centro') AND
+	("Medio_transporte".nombre = 'Bicicleta' OR "Medio_transporte".nombre = 'Moto')
 
 -- 10. lista de clientes que ha gastado más diariamente el mes pasado
 SELECT SUM(vd.precio_total) AS precio, EXTRACT(DAY FROM vd.fecha) AS dia, vd.id_cliente
