@@ -115,7 +115,6 @@ ORDER BY reg.nombre, veces DESC;
 -- 5. lista de clientes por compañía que ha pagado más mensualmente
 
 
-
 -- 6. Pedido diario con más productos del último mes
 SELECT vd.id_pedido, COUNT(vd.id_venta_detalle) AS productos
 FROM public."Pedido" AS ped
@@ -135,6 +134,16 @@ SELECT prod.nombre as produ, EXTRACT(DAY FROM vd.fecha) AS dia
 --WHERE vd.fecha >= NOW() - INTERVAL '1 MONTH' AND vd.fecha < NOW() -- al tratarse de solo el utimo mes, podemos agrugpar por dia, ya que no habran dias iguales en 1 mes
 	GROUP BY (prod.nombre, comp.nombre,dia))as prods
 
+-- 7 lista de repartidores con la mayor cantidad de despachos mensuales, en los últimos 3 años
+SELECT repartidores.nombre, repartidores.mes, repartidores.año, repartidores.veces
+FROM
+    (SELECT rep.nombre AS nombre, EXTRACT(MONTH FROM vd.fecha) AS mes, EXTRACT(YEAR FROM vd.fecha) AS año, COUNT(rep.nombre) AS veces
+    FROM public."Repartidor" AS rep
+    INNER JOIN "Pedido" AS pd ON pd.id_repartidor = rep.id_repartidor
+    INNER JOIN "Venta_Detalle" AS vd ON vd.id_pedido = pd.id_pedido
+    WHERE vd.fecha >= NOW() - INTERVAL '3 YEAR' AND vd.fecha < NOW()
+    GROUP BY (rep.nombre, mes,año)) AS repartidores
+    ORDER BY  repartidores.año DESC,repartidores.mes DESC, repartidores.veces DESC;
 
 SELECT * from "Venta_Detalle" where "Venta_Detalle".fecha >= NOW() - INTERVAL '1 YEAR' and "Venta_Detalle".fecha < NOW();
 -- 8. Lista de compañías que han recibido más ingresos en el ultimo año
@@ -173,4 +182,3 @@ SELECT SUM(vd.precio_total) AS precio, EXTRACT(DAY FROM vd.fecha) AS dia, vd.id_
 	WHERE vd.fecha >= NOW() - INTERVAL '1 MONTH' AND vd.fecha < NOW()
 	GROUP BY(dia, vd.id_cliente)
 	ORDER BY  dia DESC, precio DESC;
-	;
