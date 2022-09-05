@@ -104,6 +104,10 @@ WHERE vd.fecha >= NOW() - INTERVAL '3 YEAR' AND vd.fecha < NOW()
 GROUP BY (reg.nombre, mes, año)
 ORDER BY reg.nombre, veces DESC;
 
+-- 5. lista de clientes por compañía que ha pagado más mensualmente
+
+
+
 -- 6. Pedido diario con más productos del último mes
 SELECT vd.id_pedido, COUNT(vd.id_venta_detalle) AS productos
 FROM public."Pedido" AS ped
@@ -145,3 +149,12 @@ SELECT companies.comp_name, SUM(companies.ingresos) as ingresos_totales FROM
 	GROUP BY (prod.valor, comp.nombre,vd.fecha))as companies
 	GROUP BY(companies.comp_name)
 	ORDER BY(ingresos_totales) DESC LIMIT 5;
+
+-- 9.lista de repartidores que ha llevado pedidos en moto o bicicleta a las comunas de Providencia y Santiago Centro
+SELECT "Repartidor".id_repartidor, "Repartidor".nombre, "Comuna".nombre, "Medio_transporte".nombre
+FROM public."Repartidor"
+INNER JOIN public."Comuna" ON "Comuna".id_comuna = "Repartidor".id_comuna
+INNER JOIN public."Medio_transporte" ON "Medio_transporte".id_medio_transporte = "Repartidor".id_transporte
+WHERE
+("Comuna".nombre = 'Providencia' OR "Comuna".nombre = 'Santiago Centro') AND
+("Medio_transporte".nombre = 'Bicicleta' OR "Medio_transporte".nombre = 'Moto')
