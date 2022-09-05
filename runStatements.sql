@@ -64,24 +64,28 @@ FROM
 (SELECT  sub.direccion AS direccion, MAX(sub.cantidad) AS maximo
 FROM
  -- Direcciones de clientes junto con el número de medios de transporte por repartidores
-(SELECT cli.id_direccion AS direccion, cli.nombre, med.nombre AS nombre_transporte, COUNT(med.nombre) AS cantidad
+(SELECT cli.id_direccion AS direccion, med.nombre AS nombre_transporte, COUNT(med.nombre) AS cantidad
 FROM "Cliente" AS cli
 INNER JOIN public."Pedido" AS ped ON ped.id_cliente = cli.id_cliente
 INNER JOIN public."Repartidor" AS rep ON rep.id_repartidor = ped.id_repartidor
 INNER JOIN public."Medio_transporte" AS med ON med.id_medio_transporte = rep.id_transporte
-GROUP BY(cli.id_direccion, cli.nombre, med.nombre)
+GROUP BY(cli.id_direccion, med.nombre)
 ORDER BY(cli.id_direccion)) AS sub
 GROUP BY(sub.direccion)) AS maxi,
  
-(SELECT cli.id_direccion AS direccion, cli.nombre, med.nombre AS nombre_transporte, COUNT(med.nombre) AS cantidad
+(SELECT cli.id_direccion AS direccion, med.nombre AS nombre_transporte, COUNT(med.nombre) AS cantidad
 FROM "Cliente" AS cli
 INNER JOIN public."Pedido" AS ped ON ped.id_cliente = cli.id_cliente
 INNER JOIN public."Repartidor" AS rep ON rep.id_repartidor = ped.id_repartidor
 INNER JOIN public."Medio_transporte" AS med ON med.id_medio_transporte = rep.id_transporte
-GROUP BY(cli.id_direccion, cli.nombre, med.nombre)
+GROUP BY(cli.id_direccion, med.nombre)
 ORDER BY(cli.id_direccion)) AS sub
  
-WHERE maxi.maximo = sub.cantidad AND maxi.direccion = sub.direccion) AS maximo_transporte
+WHERE maxi.maximo = sub.cantidad AND maxi.direccion = sub.direccion
+ORDER BY (direccion)) AS maximo_transporte
+
+INNER JOIN public."Direccion" AS dir ON dir.id_direccion = maximo_transporte.direccion
+INNER JOIN public."Comuna" AS com ON com.id_comuna = dir.id_comuna
 
 -- 4. Lista de regiones con más pedidos por mes, en los últimos 3 años
 -- Falta agrupar por mes, por ahora solo muestra top regiones por los últimos 3 años
