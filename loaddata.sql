@@ -1,3 +1,6 @@
+-- Script para cargar datos estilo "dummy" en la base de datos
+
+
 INSERT INTO public."Region" (nombre)
 VALUES
   ('Metropolitana'),
