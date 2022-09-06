@@ -17,8 +17,9 @@ en consideración la información proporcionada en el enunciado y que se trata d
 * loadData.sql: Script que contiene datos "dummy" para llenar las tablas de la Base de Datos con información para las querys.
 * runStatements.sql: Scrip que contiene todas las consultas (querys) solicitadas para la Base de Datos.
 * Diccionario de Datos: Archivo que muestra un diccionario de datos considerando las tablas y atributos para la Base de Datos construida.
-* EDR - MER: MER que describe las tablas, relaciones y atributos para la Base de Datos construida.
+* EDR - MER.pdf: MER que describe las tablas, relaciones y atributos para la Base de Datos construida.
 * respaldo_delierydb.sql: Un respaldo de la Base de Datos Delivery.
+* Supuestos.pdf: Documento que contiene los supuestos considerados para el desarrollo del Control.
 
 ## Requisitos
 * Se necesita de [Postgres SQL](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads) versión 12 o superior para poder ejecutar los archivos .sql. También se recomienda utilizar PgAdmin 4 para facilitar el proceso probar los scripts y consultas.
